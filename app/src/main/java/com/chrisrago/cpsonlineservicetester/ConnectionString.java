@@ -5,17 +5,17 @@ package com.chrisrago.cpsonlineservicetester;
  */
 public class ConnectionString {
 
-    private int connectionId;
+    private long connectionId;
     private String alias;
     private String value;
 
     public ConnectionString(){}
 
-    public int getConnectionId() {
+    public long getConnectionId() {
         return connectionId;
     }
 
-    public void setConnectionId(int connectionId) {
+    public void setConnectionId(long connectionId) {
         this.connectionId = connectionId;
     }
 

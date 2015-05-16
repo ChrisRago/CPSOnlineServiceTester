@@ -2,11 +2,18 @@ package com.chrisrago.cpsonlineservicetester;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +21,31 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         DbHelper dbHelper = new DbHelper(this);
+
+        // Temporarily adding some functionality here to test database methods
+        Button addAlias = (Button) findViewById(R.id.add_alias);
+        addAlias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Going to add a new Connection String
+                ConnectionStringDAO cs = new ConnectionStringDAO(MainActivity.this);
+                ConnectionString c1 = cs.createConnectionString("Testalias", "Testvalue");
+                Log.i(TAG, "\nNewly Created Connection:\nAlias: " + c1.getAlias() + "\nValue: " +
+                c1.getValue());
+
+                // get connection string by id
+                c1 = cs.getConnectionStringById(1);
+                Log.i(TAG, "ID of 1 is: " + c1.getValue());
+                //delete all connection strings
+                List<ConnectionString> list = cs.getAllConnectionStrings();
+
+                for(int i = 0; i < list.size(); i++) {
+                    c1 = list.get(i);
+                    cs.deleteConnectionString(c1);
+                }
+
+            }
+        });
     }
 
     @Override

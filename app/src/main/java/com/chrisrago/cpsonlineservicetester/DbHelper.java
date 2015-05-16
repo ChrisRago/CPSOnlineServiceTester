@@ -17,15 +17,13 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_TEETIMES =
         "CREATE TABLE " + DatabaseContract.TeeTimeEntry.TABLE_NAME + " ("
         + DatabaseContract.TeeTimeEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_TEETIME_ID + "TEXT, "
         + DatabaseContract.TeeTimeEntry.COLUMN_NAME_START_TIME + "TEXT, "
         + DatabaseContract.TeeTimeEntry.COLUMN_NAME_SLOTS_AVAILABLE + "TEXT)";
 
     // SQL statement to create tblSettings
     private static final String SQL_CREATE_TABLE_SETTINGS =
-        "CREAT TABLE " + DatabaseContract.OptionsEntry.TABLE_NAME + " ("
+        "CREATE TABLE " + DatabaseContract.OptionsEntry.TABLE_NAME + " ("
         + DatabaseContract.OptionsEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.OptionsEntry.COLUMN_NAME_OPTION_ID + " TEXT, "
         + DatabaseContract.OptionsEntry.COLUMN_NAME_OPTION_NAME + " TEXT, "
         + DatabaseContract.OptionsEntry.COLUMN_NAME_OPTION_VALUE + " TEXT)";
 
@@ -33,7 +31,6 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_CONNECTION_STRING =
         "CREATE TABLE " + DatabaseContract.ConnectionStringEntry.TABLE_NAME + " ("
         + DatabaseContract.ConnectionStringEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.ConnectionStringEntry.COLUMN_NAME_CONNECTION_ID + " TEXT, "
         + DatabaseContract.ConnectionStringEntry.COLUMN_NAME_ALIAS + " TEXT, "
         + DatabaseContract.ConnectionStringEntry.COLUMN_NAME_VALUE + " TEXT)";
 
@@ -41,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_RESERVATIONS =
         "CREATE TABLE " + DatabaseContract.ReservationsEntry.TABLE_NAME + " ("
         + DatabaseContract.ReservationsEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.ReservationsEntry.COLUMN_NAME_RESERVATION_ID + " TEXT)";
+        + DatabaseContract.ReservationsEntry.COLUMN_NAME_RESERVATION + " TEXT)";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "ServiceTester.db";
