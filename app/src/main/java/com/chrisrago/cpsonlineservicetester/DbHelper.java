@@ -38,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_RESERVATIONS =
         "CREATE TABLE " + DatabaseContract.ReservationsEntry.TABLE_NAME + " ("
         + DatabaseContract.ReservationsEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.ReservationsEntry.COLUMN_NAME_RESERVATION + " TEXT)";
+        + DatabaseContract.ReservationsEntry.COLUMN_NAME_CONFIRMATION + " TEXT)";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "ServiceTester.db";

@@ -5,15 +5,24 @@ package com.chrisrago.cpsonlineservicetester;
  */
 public class Reservation {
 
-    private int id;
+    private long id;
+    private String confirmation;
 
     public Reservation(){}
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    public  void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
     }
 }

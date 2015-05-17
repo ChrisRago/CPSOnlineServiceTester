@@ -96,6 +96,8 @@ public class ConnectionStringDAO {
         }
 
         ConnectionString connectionString = cursorToConnectionString(cursor);
+        cursor.close();
+
         return connectionString;
     }
 

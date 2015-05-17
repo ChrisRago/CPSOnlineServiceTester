@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,6 +22,16 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         DbHelper dbHelper = new DbHelper(this);
+
+        // Check database to see if there are any ConnectionStrings already saved
+        // If so, load them into the spinner
+        ConnectionStringDAO conDAO = new ConnectionStringDAO(this);
+        List<ConnectionString> conList = conDAO.getAllConnectionStrings();
+        if(conList.size() <= 0) {
+            Toast.makeText(this, "No Connection Strings found, please click add",
+                    Toast.LENGTH_SHORT).show();
+        }
+
 
         // Temporarily adding some functionality here to test database methods
         Button addAlias = (Button) findViewById(R.id.add_alias);
@@ -73,8 +84,5 @@ public class MainActivity extends ActionBarActivity {
 
 
 /*
-http://developer.android.com/training/basics/data-storage/databases.html
-http://www.vogella.com/tutorials/AndroidSQLite/article.html#overview_sqlite
-http://stackoverflow.com/questions/3386667/query-if-android-database-exists
 http://www.android-ios-tutorials.com/android/android-sqlite-database-example/
  */

@@ -35,7 +35,7 @@ public final class DatabaseContract {
     /* Inner class that defines the table contents for tblReservations */
     public static abstract class ReservationsEntry implements BaseColumns {
         public static final String TABLE_NAME = "tblReservations";
-        public static final String COLUMN_NAME_RESERVATION = "ConfirmationId";
+        public static final String COLUMN_NAME_CONFIRMATION = "Confirmation";
     }
 }
 
