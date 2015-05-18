@@ -3,19 +3,19 @@ package com.chrisrago.cpsonlineservicetester;
 /**
  * Created by chris on 5/12/2015.
  */
-public class Setting {
+public class Options {
 
-    private int optionId;
+    private long optionId;
     private String optionName;
     private String optionValue;
 
-    public Setting(){}
+    public Options(){}
 
-    public int getOptionId() {
+    public long getOptionId() {
         return optionId;
     }
 
-    public void setOptionId(int optionId) {
+    public void setOptionId(long optionId) {
         this.optionId = optionId;
     }
 

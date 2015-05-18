@@ -3,9 +3,6 @@ package com.chrisrago.cpsonlineservicetester;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import java.util.logging.Logger;
 
 
 /**
@@ -17,11 +14,12 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_TEETIMES =
         "CREATE TABLE " + DatabaseContract.TeeTimeEntry.TABLE_NAME + " ("
         + DatabaseContract.TeeTimeEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_START_TIME + "TEXT, "
-        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_SLOTS_AVAILABLE + "TEXT)";
+        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_TEETIMEID + " TEXT, "
+        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_START_TIME + " TEXT, "
+        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_SLOTS_AVAILABLE + " TEXT)";
 
     // SQL statement to create tblSettings
-    private static final String SQL_CREATE_TABLE_SETTINGS =
+    private static final String SQL_CREATE_TABLE_Options =
         "CREATE TABLE " + DatabaseContract.OptionsEntry.TABLE_NAME + " ("
         + DatabaseContract.OptionsEntry._ID + " INTEGER PRIMARY KEY, "
         + DatabaseContract.OptionsEntry.COLUMN_NAME_OPTION_NAME + " TEXT, "
@@ -50,7 +48,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_TABLE_TEETIMES);
-        db.execSQL(SQL_CREATE_TABLE_SETTINGS);
+        db.execSQL(SQL_CREATE_TABLE_Options);
         db.execSQL(SQL_CREATE_TABLE_CONNECTION_STRING);
         db.execSQL(SQL_CREATE_TABLE_RESERVATIONS);
 

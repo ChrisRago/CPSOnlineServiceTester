@@ -1,5 +1,6 @@
 package com.chrisrago.cpsonlineservicetester;
 
+import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,17 +22,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set logo in action bar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.cps1);
+
         DbHelper dbHelper = new DbHelper(this);
-
-        // Check database to see if there are any ConnectionStrings already saved
-        // If so, load them into the spinner
-        ConnectionStringDAO conDAO = new ConnectionStringDAO(this);
-        List<ConnectionString> conList = conDAO.getAllConnectionStrings();
-        if(conList.size() <= 0) {
-            Toast.makeText(this, "No Connection Strings found, please click add",
-                    Toast.LENGTH_SHORT).show();
-        }
-
 
         // Temporarily adding some functionality here to test database methods
         Button addAlias = (Button) findViewById(R.id.add_alias);
@@ -40,13 +35,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // Going to add a new Connection String
                 ConnectionStringDAO cs = new ConnectionStringDAO(MainActivity.this);
-                ConnectionString c1 = cs.createConnectionString("Testalias", "Testvalue");
-                Log.i(TAG, "\nNewly Created Connection:\nAlias: " + c1.getAlias() + "\nValue: " +
-                c1.getValue());
+                ConnectionString c1 = cs.createConnectionString("Localhost", "127.0.0.1");
 
-                // get connection string by id
-                c1 = cs.getConnectionStringById(1);
-                Log.i(TAG, "ID of 1 is: " + c1.getValue());
                 //delete all connection strings
                 List<ConnectionString> list = cs.getAllConnectionStrings();
 
@@ -57,6 +47,26 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        // Check database to see if there are any ConnectionStrings already saved
+        // If so, load them into the spinner
+        ConnectionStringDAO conDAO = new ConnectionStringDAO(this);
+        List<ConnectionString> conList = conDAO.getAllConnectionStrings();
+        if(conList.size() <= 0) {
+            Toast.makeText(this, "No Connection Strings found, please add a new Connection String",
+                    Toast.LENGTH_SHORT).show();
+            Button loadTeesheet = (Button) findViewById(R.id.load_teesheet);
+            loadTeesheet.setVisibility(View.INVISIBLE);
+        }
+        else{
+            Button loadTeesheet = (Button) findViewById(R.id.load_teesheet);
+            loadTeesheet.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

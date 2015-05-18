@@ -13,6 +13,7 @@ public final class DatabaseContract {
     /* Inner class that defines the table contents for tblTeeTimes */
     public static abstract class TeeTimeEntry implements BaseColumns {
         public static final String TABLE_NAME = "tblTeeTimes";
+        public static final String COLUMN_NAME_TEETIMEID = "teeTimeId";
         public static final String COLUMN_NAME_START_TIME = "startTime";
         public static final String COLUMN_NAME_SLOTS_AVAILABLE = "slotsAvailable";
 
