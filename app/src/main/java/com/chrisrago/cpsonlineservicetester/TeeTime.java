@@ -5,18 +5,27 @@ package com.chrisrago.cpsonlineservicetester;
  */
 public class TeeTime {
 
-    private int teeTimeId;
+    private long teeTimeId;
+    private String cpsTeeTimeId;
     private String startTime;
     private String slotsAvailable;
 
     public TeeTime(){}
 
-    public int getTeeTimeId() {
+    public long getTeeTimeId() {
         return teeTimeId;
     }
 
-    public void setTeeTimeId(int teeTimeId) {
+    public void setTeeTimeId(long teeTimeId) {
         this.teeTimeId = teeTimeId;
+    }
+
+    public String getCPSTeeTimeId() {
+        return cpsTeeTimeId;
+    }
+
+    public void setCPSTeeTimeId(String cpsTeeTimeId) {
+        this.cpsTeeTimeId = cpsTeeTimeId;
     }
 
     public String getStartTime() {

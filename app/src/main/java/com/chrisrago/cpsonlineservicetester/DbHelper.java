@@ -14,7 +14,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_TEETIMES =
         "CREATE TABLE " + DatabaseContract.TeeTimeEntry.TABLE_NAME + " ("
         + DatabaseContract.TeeTimeEntry._ID + " INTEGER PRIMARY KEY, "
-        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_TEETIMEID + " TEXT, "
+        + DatabaseContract.TeeTimeEntry.COLUMN_NAME_CPS_TEETIMEID + " TEXT, "
         + DatabaseContract.TeeTimeEntry.COLUMN_NAME_START_TIME + " TEXT, "
         + DatabaseContract.TeeTimeEntry.COLUMN_NAME_SLOTS_AVAILABLE + " TEXT)";
 
