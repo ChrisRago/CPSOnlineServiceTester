@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">CPS Online Service Tester</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="alias">Alias:</string>
+    <string name="value">Value:</string>
+    <string name="localhost">Localhost</string>
+    <string name="localhost_ip">127.0.0.1</string>
+    <string name="save">Save</string>
     <string name="action_settings">Settings</string>
 </resources>

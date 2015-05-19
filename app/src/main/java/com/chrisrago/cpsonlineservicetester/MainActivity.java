@@ -1,6 +1,7 @@
 package com.chrisrago.cpsonlineservicetester;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
     public static final String TAG = "MainActivity";
+    public static final int ADD_CONNECTION_STRING_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +30,15 @@ public class MainActivity extends ActionBarActivity {
 
         DbHelper dbHelper = new DbHelper(this);
 
-        // Temporarily adding some functionality here to test database methods
-        Button addAlias = (Button) findViewById(R.id.add_alias);
+        // Launch AddConnectionStringActivity
+        Button addAlias = (Button) findViewById(R.id.AddConnectionString);
         addAlias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Going to add a new Connection String
-                ConnectionStringDAO cs = new ConnectionStringDAO(MainActivity.this);
-                ConnectionString c1 = cs.createConnectionString("Localhost", "127.0.0.1");
 
-                //delete all connection strings
-                List<ConnectionString> list = cs.getAllConnectionStrings();
+                Intent intent = new Intent(this, AddConnectionStringActivity.class);
 
-                for(int i = 0; i < list.size(); i++) {
-                    c1 = list.get(i);
-                    cs.deleteConnectionString(c1);
-                }
+                startActivityForResult(intent, ADD_CONNECTION_STRING_REQUEST);
 
             }
         });
@@ -60,11 +55,11 @@ public class MainActivity extends ActionBarActivity {
         if(conList.size() <= 0) {
             Toast.makeText(this, "No Connection Strings found, please add a new Connection String",
                     Toast.LENGTH_SHORT).show();
-            Button loadTeesheet = (Button) findViewById(R.id.load_teesheet);
+            Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
             loadTeesheet.setVisibility(View.INVISIBLE);
         }
         else{
-            Button loadTeesheet = (Button) findViewById(R.id.load_teesheet);
+            Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
             loadTeesheet.setVisibility(View.VISIBLE);
         }
     }
@@ -89,6 +84,27 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // which request are we responding to
+        if (requestCode == ADD_CONNECTION_STRING_REQUEST) {
+            // Make sure the connection string was added
+            if (resultCode == RESULT_OK) {
+                // The user added a connection string alias. Notify the user that the alias has
+                // been saved successfully, and update the AliasSpinner
+                Toast.makeText(MainActivity.this, "Connection String Saved",
+                        Toast.LENGTH_SHORT).show();
+
+                //TODO build the other activity that adds the connection string.
+                //TODO add code to update the spinner... maybe call a fucntion updateSpinner()
+                //TODO retrieve the data (whatever it may be) from the intent
+                // http://developer.android.com/training/basics/intents/result.html
+                // http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent, int)
+
+            }
+        }
     }
 }
 

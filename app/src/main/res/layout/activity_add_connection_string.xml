@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alias"
+        android:id="@+id/AliasText"
+        android:layout_marginTop="69dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="54dp"
+        android:layout_marginStart="54dp"
+        android:textSize="24sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AliasInput"
+        android:textSize="24sp"
+        android:hint="@string/localhost"
+        android:layout_alignBottom="@+id/AliasText"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value"
+        android:id="@+id/ValueText"
+        android:layout_marginTop="81dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/AliasText"
+        android:layout_alignLeft="@+id/AliasText"
+        android:layout_alignStart="@+id/AliasText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ValueInput"
+        android:textSize="24sp"
+        android:hint="@string/localhost_ip"
+        android:layout_alignTop="@+id/ValueText"
+        android:layout_alignRight="@+id/AliasInput"
+        android:layout_alignEnd="@+id/AliasInput" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/SaveButton"
+        android:layout_marginBottom="116dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

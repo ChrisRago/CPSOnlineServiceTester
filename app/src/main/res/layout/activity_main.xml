@@ -8,32 +8,24 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/alias_spinner"
+        android:id="@+id/ConnectionStringSpinner"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="111dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/connection_alias"
-        android:layout_below="@+id/alias_spinner"
-        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add"
-        android:id="@+id/add_alias"
+        android:id="@+id/AddConnectionString"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/connection_alias" />
+        android:layout_below="@+id/ConnectionStringSpinner" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Load Teesheet"
-        android:id="@+id/load_teesheet"
+        android:id="@+id/LoadTeeSheet"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="68dp" />
