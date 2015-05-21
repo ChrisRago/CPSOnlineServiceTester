@@ -1,20 +1,24 @@
 package com.chrisrago.cpsonlineservicetester;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     public static final int ADD_CONNECTION_STRING_REQUEST = 1;
@@ -24,9 +28,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set logo in action bar
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.cps1);
+
+
 
         DbHelper dbHelper = new DbHelper(this);
 
@@ -36,7 +39,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(this, AddConnectionStringActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddConnectionStringActivity.class);
 
                 startActivityForResult(intent, ADD_CONNECTION_STRING_REQUEST);
 
@@ -59,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
             loadTeesheet.setVisibility(View.INVISIBLE);
         }
         else{
+            updateSpinner();
             Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
             loadTeesheet.setVisibility(View.VISIBLE);
         }
@@ -97,18 +101,42 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(MainActivity.this, "Connection String Saved",
                         Toast.LENGTH_SHORT).show();
 
-                //TODO build the other activity that adds the connection string.
-                //TODO add code to update the spinner... maybe call a fucntion updateSpinner()
-                //TODO retrieve the data (whatever it may be) from the intent
-                // http://developer.android.com/training/basics/intents/result.html
-                // http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent, int)
+                updateSpinner();
 
             }
         }
     }
+
+    private void updateSpinner() {
+
+        // first get a fresh query from the database of all the connection strings
+        ConnectionStringDAO conDAO = new ConnectionStringDAO(this);
+        List<ConnectionString> conList = conDAO.getAllConnectionStrings();
+
+        // create a String array to hold all the aliases
+        String[] aliasList = new String[conList.size()];
+
+        // parse the list of connection strings out into just the aliases
+        for(int i = 0; i < aliasList.length; i++) {
+            aliasList[i] = conList.get(i).getAlias();
+        }
+
+        // create the spinner adapter
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+                R.layout.support_simple_spinner_dropdown_item, aliasList);
+
+        // get the spinner and set the adapter
+        Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
+        spinner.setAdapter(spinnerAdapter);
+
+    }
 }
 
 
+
 /*
+//TODO Read this https://chris.banes.me/2014/11/12/theme-vs-style/
+//TODO and this https://chris.banes.me/2015/04/22/support-libraries-v22-1-0/
+//TODO get teh theme working correctly so it loads the nice green toolbar
 http://www.android-ios-tutorials.com/android/android-sqlite-database-example/
  */
