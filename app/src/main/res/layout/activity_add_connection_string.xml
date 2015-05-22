@@ -7,55 +7,65 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/AliasLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/alias"
-        android:id="@+id/AliasText"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="54dp"
-        android:layout_marginStart="54dp"
-        android:textSize="24sp" />
+        android:layout_below="@id/tool_bar"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/AliasInput"
-        android:textSize="24sp"
-        android:hint="@string/localhost"
-        android:layout_alignBottom="@+id/AliasText"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/alias"
+            android:id="@+id/AliasText"
+            android:textSize="24sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value"
-        android:id="@+id/ValueText"
-        android:layout_marginTop="81dp"
-        android:textSize="24sp"
-        android:layout_below="@+id/AliasText"
-        android:layout_alignLeft="@+id/AliasText"
-        android:layout_alignStart="@+id/AliasText" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/AliasInput"
+            android:textSize="24sp"
+            android:hint="@string/localhost"/>
+    </LinearLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ValueInput"
-        android:textSize="24sp"
-        android:hint="@string/localhost_ip"
-        android:layout_alignTop="@+id/ValueText"
-        android:layout_alignRight="@+id/AliasInput"
-        android:layout_alignEnd="@+id/AliasInput" />
+        android:layout_below="@id/AliasLayout"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/value"
+            android:id="@+id/ValueText"
+            android:textSize="24sp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/ValueInput"
+            android:textSize="24sp"
+            android:hint="@string/localhost_ip" />
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:id="@+id/SaveButton"
-        android:layout_marginBottom="116dp"
+        android:layout_marginBottom="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
