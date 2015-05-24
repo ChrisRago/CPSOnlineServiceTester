@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class ConnectionStringDAO {
     }
 
     public ConnectionString createConnectionString(String alias, String value) {
+
+
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.ConnectionStringEntry.COLUMN_NAME_ALIAS, alias);
         values.put(DatabaseContract.ConnectionStringEntry.COLUMN_NAME_VALUE, value);
@@ -57,6 +60,7 @@ public class ConnectionStringDAO {
         ConnectionString newConnectionString = cursorToConnectionString(cursor);
         cursor.close();
         return newConnectionString;
+
     }
 
     public void deleteConnectionString(ConnectionString connectionString) {
@@ -97,6 +101,26 @@ public class ConnectionStringDAO {
 
         ConnectionString connectionString = cursorToConnectionString(cursor);
         cursor.close();
+
+        return connectionString;
+    }
+
+    public ConnectionString getConnectionStringByAlias(String alias) {
+        Cursor cursor = mDatabase.query(DatabaseContract.ConnectionStringEntry.TABLE_NAME,
+                mAllColumns, DatabaseContract.ConnectionStringEntry.COLUMN_NAME_ALIAS + " = '" +
+                        alias + "'", null, null,
+                null, null);
+
+        if(cursor != null) {
+            cursor.moveToFirst();
+        }
+        ConnectionString connectionString = null;
+
+        // if statment to verify there is a result in the cursor
+        if(cursor.moveToFirst()){
+            connectionString = cursorToConnectionString(cursor);
+            cursor.close();
+        }
 
         return connectionString;
     }

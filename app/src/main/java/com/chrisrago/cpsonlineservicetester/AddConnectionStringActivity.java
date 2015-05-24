@@ -71,13 +71,21 @@ public class AddConnectionStringActivity extends AppCompatActivity {
             Toast.makeText(this, "both alias and value cannot be blank", Toast.LENGTH_LONG).show();
         }
         else {
-
-            // Create the new connection string and return to the main activity
+            // First check to see if the alias is already used
             ConnectionStringDAO connStringDAO = new ConnectionStringDAO(this);
-            ConnectionString connString = connStringDAO.createConnectionString(alias, value);
+            ConnectionString connectionString = connStringDAO.getConnectionStringByAlias(alias);
 
-            setResult(Activity.RESULT_OK);
-            finish();
+            if (connectionString != null) {
+                Toast.makeText(this, "Alias already used, please input another alias",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Create new connection string and return it to the main activity
+                connStringDAO.createConnectionString(alias, value);
+
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
         }
     }
 }

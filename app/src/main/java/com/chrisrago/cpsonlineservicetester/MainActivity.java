@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.action_delete) {
+            deleteConnectionString();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -132,13 +136,26 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(spinnerAdapter);
 
     }
+
+    private void deleteConnectionString() {
+
+        // Get the spinner and the alias that is selected
+        Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
+        int index = spinner.getSelectedItemPosition();
+        if (index == -1) {
+            Toast.makeText(this, "No Connection String to delete", Toast.LENGTH_SHORT).show();
+        } else {
+            String alias = spinner.getSelectedItem().toString();
+
+            // Create a ConnectionStringDAO class and remove the connection string
+            ConnectionStringDAO connStringDAO = new ConnectionStringDAO(this);
+            ConnectionString connectionString = connStringDAO.getConnectionStringByAlias(alias);
+            connStringDAO.deleteConnectionString(connectionString);
+
+            updateSpinner();
+
+            Toast.makeText(this, "Connection String deleted", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
-
-
-
-/*
-//TODO Read this https://chris.banes.me/2014/11/12/theme-vs-style/
-//TODO and this https://chris.banes.me/2015/04/22/support-libraries-v22-1-0/
-//TODO get teh theme working correctly so it loads the nice green toolbar
-http://www.android-ios-tutorials.com/android/android-sqlite-database-example/
- */
