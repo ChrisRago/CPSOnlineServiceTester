@@ -2,7 +2,12 @@ package com.chrisrago.cpsonlineservicetester;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,21 +59,42 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
-        // Check database to see if there are any ConnectionStrings already saved
-        // If so, load them into the spinner
-        ConnectionStringDAO conDAO = new ConnectionStringDAO(this);
-        List<ConnectionString> conList = conDAO.getAllConnectionStrings();
-        if(conList.size() <= 0) {
-            Toast.makeText(this, "No Connection Strings found, please add a new Connection String",
-                    Toast.LENGTH_SHORT).show();
-            Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
-            loadTeesheet.setVisibility(View.INVISIBLE);
+        // Check to see if device has an internet connection
+        boolean isConnected = false;
+
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+            if (ni != null) {
+                if (ni.isConnected()) {
+
+                    // if we've gotten this far, there is a connection
+                    isConnected = true;
+                }
+            }
+
         }
-        else{
-            updateSpinner();
-            Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
-            loadTeesheet.setVisibility(View.VISIBLE);
+
+        // if not internet is available display an alert
+        if (!isConnected) {
+
+            AlertDialog ad = new AlertDialog.Builder(this).create();
+            ad.setTitle("Internet Required");
+            ad.setMessage("An internet connection is required to check Online Services!");
+            ad.setButton(DialogInterface.BUTTON_NEUTRAL, "0K",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Does nothing
+                        }
+                    });
+            ad.show();
         }
+
+
+        // update the spinner
+        updateSpinner();
+
     }
 
     @Override
@@ -90,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.action_delete) {
-            deleteConnectionString();
+            confirmDeleteConnectionString();
         }
 
         return super.onOptionsItemSelected(item);
@@ -118,44 +144,88 @@ public class MainActivity extends AppCompatActivity {
         // first get a fresh query from the database of all the connection strings
         ConnectionStringDAO conDAO = new ConnectionStringDAO(this);
         List<ConnectionString> conList = conDAO.getAllConnectionStrings();
+        if(conList.size() <= 0) {
+            Toast.makeText(this, "No Connection String, please add a Connection String",
+                    Toast.LENGTH_SHORT).show();
+            Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
+            loadTeesheet.setVisibility(View.INVISIBLE);
+            Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
+            spinner.setVisibility(View.INVISIBLE);
+        } else {
 
-        // create a String array to hold all the aliases
-        String[] aliasList = new String[conList.size()];
+            // create a String array to hold all the aliases
+            String[] aliasList = new String[conList.size()];
 
-        // parse the list of connection strings out into just the aliases
-        for(int i = 0; i < aliasList.length; i++) {
-            aliasList[i] = conList.get(i).getAlias();
+            // parse the list of connection strings out into just the aliases
+            for (int i = 0; i < aliasList.length; i++) {
+                aliasList[i] = conList.get(i).getAlias();
+            }
+
+            // create the spinner adapter
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+                    R.layout.support_simple_spinner_dropdown_item, aliasList);
+
+            // get the spinner and set the adapter
+            Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
+            spinner.setAdapter(spinnerAdapter);
+            spinner.setVisibility(View.VISIBLE);
+
+            Button loadTeesheet = (Button) findViewById(R.id.LoadTeeSheet);
+            loadTeesheet.setVisibility(View.VISIBLE);
+
         }
-
-        // create the spinner adapter
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
-                R.layout.support_simple_spinner_dropdown_item, aliasList);
-
-        // get the spinner and set the adapter
-        Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
-        spinner.setAdapter(spinnerAdapter);
-
     }
 
-    private void deleteConnectionString() {
+    private void deleteConnectionString(Spinner spinner) {
 
+        // Get the selected index of the spinner
+        int index = spinner.getSelectedItemPosition();
+
+        String alias = spinner.getSelectedItem().toString();
+
+        // Create a ConnectionStringDAO class and remove the connection string
+        ConnectionStringDAO connStringDAO = new ConnectionStringDAO(this);
+        ConnectionString connectionString = connStringDAO.getConnectionStringByAlias(alias);
+        connStringDAO.deleteConnectionString(connectionString);
+
+        Toast.makeText(this, "Connection String deleted", Toast.LENGTH_SHORT).show();
+
+        updateSpinner();
+    }
+
+    private void confirmDeleteConnectionString(){
+
+        // First make sure there's a connection string to delete
         // Get the spinner and the alias that is selected
-        Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.ConnectionStringSpinner);
         int index = spinner.getSelectedItemPosition();
         if (index == -1) {
             Toast.makeText(this, "No Connection String to delete", Toast.LENGTH_SHORT).show();
         } else {
-            String alias = spinner.getSelectedItem().toString();
-
-            // Create a ConnectionStringDAO class and remove the connection string
-            ConnectionStringDAO connStringDAO = new ConnectionStringDAO(this);
-            ConnectionString connectionString = connStringDAO.getConnectionStringByAlias(alias);
-            connStringDAO.deleteConnectionString(connectionString);
-
-            updateSpinner();
-
-            Toast.makeText(this, "Connection String deleted", Toast.LENGTH_SHORT).show();
+            // Create a dialog prompting the user to confirm they want to delete the connection string
+            AlertDialog ad = new AlertDialog.Builder(this).create();
+            ad.setTitle("Delete Alias?");
+            ad.setMessage("This cannot be undone!");
+            ad.setButton(DialogInterface.BUTTON_POSITIVE, "Delete",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteConnectionString(spinner);
+                        }
+                    });
+            ad.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do not delete the connection string
+                        }
+                    });
+            ad.show();
         }
+
 
     }
 }
+
+
+//todo http://programmerguru.com/android-tutorial/android-webservice-example/
